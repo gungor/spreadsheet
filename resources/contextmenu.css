@@ -1,0 +1,29 @@
+
+body {
+	font-family: sans-serif; font-size: 12px;
+}
+
+#contextMenu {
+	background: rgb(249, 249, 249); list-style: none; margin: 0px; padding: 0px; border: 1px solid rgb(204, 204, 204); left: 0px; top: 0px; display: none; position: absolute; min-width: 100px; box-shadow: 0px 0px 12px rgba(0,0,0,0.3);
+}
+#contextMenu li {
+	position: relative;
+}
+#contextMenu li:hover {
+	background: rgb(68, 68, 68);
+}
+#contextMenu a {
+	padding: 8px; width: 85%; color: rgb(68, 68, 68); text-decoration: none; display: inline-block;
+	border-bottom-color: rgb(86, 86, 86); border-bottom-width: 1px; border-bottom-style: dotted;
+}
+
+#contextMenu a:hover{
+	border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
+
+#contextMenu li:hover a {
+	color: rgb(249, 249, 249);
+}
+#contextMenu li:last-child a {
+	border-bottom-color: currentColor; border-bottom-width: medium; border-bottom-style: none;
+}
