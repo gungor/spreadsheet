@@ -7,6 +7,7 @@ A sidebar fixed grid presenting some features of excel like spreadsheets
 - Copy-Paste inside component, Paste from any other document (excel file)
 - Keyboard navigation inside grid
 
+Demo: https://rawgithub.com/gungor/spreadsheet/master/example.html
 
 Contact
 -------------------------
