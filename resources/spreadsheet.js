@@ -659,11 +659,6 @@ function buildContextMenu() {
 	});
 }
 
-function adjustDimensions(){
-	//var container = document.getElementById('spreadsheet');	
-	//if( container.style.width = '100%'; )
-}
-
 var disableEvent = function(e) {
 	util.preventDefault(e);
 }
@@ -673,7 +668,7 @@ function buildSpreadsheet( dataObject ){
 
 	var container = document.getElementById('spreadsheet');	
 	container.style.width = '100%';	
-	container.style.height = '200px';
+	container.style.height = '100%';
 	
 	container.style ='font-family: Arial;';
 	
