@@ -14,9 +14,6 @@ var util = {
 	},
 	right : function(element){
 		var boundingRectangle =  element.getBoundingClientRect();
-		if( navigator.appName == 'Microsoft Internet Explorer' ){
-			return boundingRectangle.right;						
-		}
 		return boundingRectangle.left + boundingRectangle.width;
 	},
 	top : function(element){
@@ -24,9 +21,6 @@ var util = {
 	},
 	bottom : function(element){
 		var boundingRectangle =  element.getBoundingClientRect();
-		if( navigator.appName == 'Microsoft Internet Explorer' ){
-			return boundingRectangle.bottom;						
-		}
 		return boundingRectangle.top + boundingRectangle.height;
 	},
 
@@ -124,16 +118,7 @@ function Spreadsheet(){
 			this.focusedCell = cell;												
 			this.focusedCell.appendChild(input);
 			
-			input.style.width = '100%';
-			input.style.height = '100%';
-			input.style.margin = '0px';
-			input.style.border = 'none';
-			input.style.fontSize = '12px';
-			input.style.fontFamily = 'Arial';
-			input.style.outline = 'none';
-			input.style.display = 'block';
-			input.style.overflow = 'hidden';	
-			
+			input.className = 'focusedCell';			
 			input.value = text;
 			input.focus();						
 		}
@@ -309,7 +294,7 @@ function Spreadsheet(){
 			var cell = formTable.rows[cellY + yComp].cells[cellX + xComp];
 
 			for ( var i = 0; i < this.selectedCells.length; i++) {
-				if( this.selectedCells[i].className = 'slctedSprCell' ){
+				if( this.selectedCells[i].className == 'slctedSprCell' ){
 					this.selectedCells[i].className = 'sprCell';
 				}
 			}
@@ -361,73 +346,15 @@ function Spreadsheet(){
 			for ( var j = 0; j < row.cells.length; j++) {
 				try {
 					var cell = row.cells[j];
-					var valFound = false;
 
 					if ( selectedClassNames.indexOf(cell.className) != -1  ) {
 						if (firstSelectedCellInRow == true) {											
 							firstSelectedCellInRow = false;
-
-							if (cell.children.length > 0) {
-								var innerVal = null;
-								for ( var k = 0; k < cell.children.length; k++) {
-									if (cell.children[k].nodeName == 'SPAN') {
-										if (cell.children[k].children.length > 0)
-											innerVal = cell.children[k].children[0].innerHTML;
-										else
-											innerVal = cell.children[k].innerHTML;
-
-										valFound = true;
-									} else if (cell.children[k].nodeName == 'TEXTAREA') {
-										innerVal = cell.children[k].innerHTML;
-										valFound = true;
-										break;
-									} else if (cell.children[k].nodeName == 'INPUT') {
-										innerVal = cell.children[k].value;
-										valFound = true;
-										break;
-									}
-								}
-								if (valFound == true)
-									copyContent = copyContent + innerVal;
-							} else {
-								copyContent = copyContent + cell.innerHTML;
-								valFound = true;
-							}
-						} else {
-							if (cell.children.length > 0) {
-								var innerVal = null;
-								for ( var k = 0; k < cell.children.length; k++) {
-									if (cell.children[k].nodeName == 'SPAN') {
-										if (cell.children[k].children.length > 0)
-											innerVal = cell.children[k].children[0].innerHTML;
-										else
-											innerVal = cell.children[k].innerHTML;
-
-										valFound = true;
-									} else if (cell.children[k].nodeName == 'TEXTAREA') {
-										innerVal = cell.children[k].innerHTML;
-										valFound = true;
-										break;
-									} else if (cell.children[k].nodeName == 'INPUT') {
-										innerVal = cell.children[k].value;
-										valFound = true;
-										break;
-									}
-								}
-								if (valFound == true) {
-									copyContent = copyContent + String.fromCharCode(9) + innerVal;
-								}
-							} else {
-								copyContent = copyContent + String.fromCharCode(9) + cell.innerHTML;
-								valFound = true;
-							}
-
-							if (valFound == false) {
-								copyContent = copyContent + String.fromCharCode(9);
-							}
+							copyContent = copyContent + (cell.children.length > 0 ? cell.children[0].value :  cell.innerHTML );							
+						} else {						
+							copyContent = copyContent + String.fromCharCode(9) + (cell.children.length > 0 ? cell.children[0].value :  cell.innerHTML );						
 						}
 					}
-
 				} catch (err) {
 					console.log('ERROR : '+ err);
 				}
@@ -438,8 +365,7 @@ function Spreadsheet(){
 			}
 		}
 
-		spreadsheet.copyContent = copyContent;
-		
+		spreadsheet.copyContent = copyContent;		
 		return false;					
 	};
 	
@@ -541,11 +467,7 @@ function attachScrollStablerEvents(){
 		scrollableHeadDiv.scrollLeft = scrollRightTbl.scrollLeft;
 	};
 	util.addEvent(scrollRightTbl,'scroll',handler);
-}
-
-function changeScrollStyle(){
-	//Not implemented
-}		
+}	
 
 function attachMouseEvents(){
 	var getCell = function(event){
@@ -778,9 +700,6 @@ function buildSpreadsheet( dataObject ){
 	
 	equalizeContentDependentHeights();
 	attachScrollStablerEvents();
-	changeScrollStyle();
 	attachMouseEvents();
-	buildContextMenu();
-	
-	
+	buildContextMenu();	
 }
